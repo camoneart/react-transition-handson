@@ -1,26 +1,37 @@
 import "./App.css";
-import { Suspense } from "react";
-import Sleep1s from "./Sleep1s";
-import { useState, startTransition } from "react";
+import { startTransition, Suspense, useTransition } from "react";
+import { useState } from "react";
+import { ShowData } from "./components/ShowData";
+import { useTime } from "./hooks/useTime";
 
 function App() {
-  const [sleepIsShown, setSleepIsShown] = useState(false);
+  const [counter, setCounter] = useState(0);
+  const time = useTime();
+  const [isPending, startTransition] = useTransition();
+  const [isPending2, startTransition2] = useTransition();
   return (
     <div className="text-center">
       <h1 className="text-2xl">React App!</h1>
+      <p className={"tabular-nums" + (isPending ? " text-blue-700" : "")}>
+        🕒 {time}
+      </p>
       <Suspense fallback={<p>Loading...</p>}>
-        {sleepIsShown ? <Sleep1s /> : null}
+        <ShowData dataKey={counter} />
       </Suspense>
       <p>
         <button
-          className="border p-1 mt-4"
+          className="border p-1"
           onClick={() => {
             startTransition(() => {
-              setSleepIsShown(true);
+              setCounter((c) => c + 1);
             });
+            startTransition2(() => {
+              setCounter((c) => c + 5);
+            });
+            console.log(counter);
           }}
         >
-          Show Sleep1s
+          Counter is {counter}
         </button>
       </p>
     </div>
