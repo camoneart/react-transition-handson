@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 
 const formatter = Intl.DateTimeFormat("ja-JP", {
   hour: "2-digit",
@@ -12,8 +12,8 @@ export function useTime() {
   useEffect(() => {
     const interval = setInterval(() => {
       setTime(formatter.format(new Date()));
-    }, 1000);
+    }, 100);
     return () => clearInterval(interval);
-  });
+  }, []);
   return time;
 }

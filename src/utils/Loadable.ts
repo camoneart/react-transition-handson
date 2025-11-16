@@ -41,7 +41,6 @@ export class Loadable<T> {
     if (result.#state.status !== "pending") {
       throw new Error("Unreachable");
     }
-
     return [result, result.#state.promise];
   }
 
